@@ -1,0 +1,44 @@
+<template>
+        <template if:true={isStepOne}>
+                <lightning-card title="Account Information" icon-name="standard:account">
+                    <lightning-input type="text" label="Account Name" value={name} onchange={handleAccountNameChange}></lightning-input>
+                    <lightning-input type="date" label="Date of Birth" value={dob} onchange={handleDOBChange}></lightning-input>
+                    <lightning-input type="tel" label="Phone" value={phone} onchange={handlePhoneChange}></lightning-input>
+                    <lightning-input type="email" label="Email" value={email} onchange={handleEmailChange}></lightning-input>
+                </lightning-card>
+
+                <lightning-button 
+                    label="Next" 
+                    onclick={goToNextStep} 
+                    disabled={isNextDisabled}
+                    variant="brand">
+                </lightning-button>
+        </template>
+
+        <template if:true={isStepTwo}>
+                <lightning-card title="Contact Information" icon-name="standard:contact">
+                    <lightning-input type="text" label="Contact Name" value={contactName} onchange={handleContactNameChange}></lightning-input>
+                    <lightning-input type="tel" label="Contact Phone" value={contactPhone} onchange={handleContactPhoneChange}></lightning-input>
+                    <lightning-input type="email" label="Contact Email" value={contactEmail} onchange={handleContactEmailChange}></lightning-input>
+                </lightning-card>
+
+                <lightning-button label="Previous" variant="neutral" onclick={goToPreviousStep}></lightning-button>
+                <lightning-button 
+                    label="Next" 
+                    variant="brand" 
+                    onclick={goToNextStep} 
+                    disabled={isNextDisabled}>
+                </lightning-button>
+        </template>
+
+        <template if:true={isStepThree}>
+                <lightning-card title="Opportunity Information" icon-name="standard:opportunity">
+                    <lightning-input type="text" label="Opportunity Name" value={oppName} onchange={handleOppNameChange}></lightning-input>
+                    <lightning-input type="date" label="Close Date" value={closeDate} onchange={handleCloseDateChange}></lightning-input>
+                    <lightning-input type="number" label="Amount" value={amount} onchange={handleAmountChange}></lightning-input>
+                </lightning-card>
+
+                <lightning-button label="Previous" variant="neutral" onclick={goToPreviousStep}></lightning-button>
+                <lightning-button label="Submit" variant="brand" onclick={handleSubmit}></lightning-button>
+        </template>
+</template>

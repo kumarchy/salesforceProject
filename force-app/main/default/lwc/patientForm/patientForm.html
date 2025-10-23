@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Patient Record Creation" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <!-- Patient Info -->
+            <lightning-input label="Patient Name" value={patientName} onchange={handleChange} data-field="patientName"></lightning-input>
+            <lightning-input label="Email" type="email" value={patientEmail} onchange={handleChange} data-field="patientEmail"></lightning-input>
+            <lightning-input label="Phone" type="phone" value={patientPhone} onchange={handleChange} data-field="patientPhone"></lightning-input>
+
+            <lightning-input label="Contact Name" value={contactName} onchange={handleChange} data-field="contactName"></lightning-input>
+            <lightning-input label="Contact Phone" type="phone" value={contactPhone} onchange={handleChange} data-field="contactPhone"></lightning-input>
+
+            <lightning-input label="Opportunity Name" value={opportunityName} onchange={handleChange} data-field="opportunityName"></lightning-input>
+            <lightning-input label="Close Date" type="date" value={opportunityCloseDate} onchange={handleChange} data-field="opportunityCloseDate"></lightning-input>
+
+            <lightning-combobox
+                label="Stage"
+                value={opportunityStage}
+                options={stageOptions}
+                onchange={handleChange}
+                data-field="opportunityStage">
+            </lightning-combobox>
+
+            <lightning-input label="Case Subject" value={caseSubject} onchange={handleChange} data-field="caseSubject"></lightning-input>
+            <lightning-textarea label="Case Description" value={caseDescription} onchange={handleChange} data-field="caseDescription"></lightning-textarea>
+
+            <lightning-button label="Submit" variant="brand" onclick={submitData} class="slds-m-top_medium"></lightning-button>
+        </div>
+    </lightning-card>
+</template>

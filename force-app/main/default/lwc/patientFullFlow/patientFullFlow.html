@@ -1,0 +1,159 @@
+<template>
+    <div>
+        <!-- Account Card -->
+        <template if:true={accCard}>
+            <lightning-card title="Account" icon-name="standard:account">
+                <div class="slds-m-around_medium">
+                    <lightning-input
+                        type="text"
+                        label="Patient Name"
+                        value={patientName}
+                        onchange={onPatientNameChange}
+                        required>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="email"
+                        label="Email"
+                        value={patientEmail}
+                        onchange={onPatientEmailChange}
+                        required>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="phone"
+                        label="Phone"
+                        value={patientPhone}
+                        onchange={onPatientPhoneChange}
+                        required>
+                    </lightning-input>
+
+                    <br />
+                    <lightning-button
+                        label="Next"
+                        variant="brand"
+                        onclick={goToContact}>
+                    </lightning-button>
+                </div>
+            </lightning-card>
+        </template>
+
+        <!-- Contact Card -->
+        <template if:true={conCard}>
+            <lightning-card title="Contact" icon-name="standard:contact">
+                <div class="slds-m-around_medium">
+                    <lightning-input
+                        type="text"
+                        label="Contact Name"
+                        value={contactName}
+                        onchange={onContactNameChange}
+                        required>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="phone"
+                        label="Contact Phone"
+                        value={contactPhone}
+                        onchange={onContactPhoneChange}
+                        required>
+                    </lightning-input>
+
+                    <br />
+                    <lightning-button
+                        label="Next"
+                        variant="brand"
+                        onclick={goToOpportunity}>
+                    </lightning-button>
+                </div>
+            </lightning-card>
+        </template>
+
+        <!-- Opportunity Card -->
+        <template if:true={oppCard}>
+            <lightning-card title="Opportunity" icon-name="standard:opportunity">
+                <div class="slds-m-around_medium">
+                    <lightning-input
+                        type="text"
+                        label="Opportunity Name"
+                        value={opportunityName}
+                        onchange={onOpportunityNameChange}
+                        required>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="date"
+                        label="Close Date"
+                        value={opportunityCloseDate}
+                        onchange={onOpportunityCloseDateChange}
+                        required>
+                    </lightning-input>
+
+                    <lightning-combobox
+                        label="Stage"
+                        value={opportunityStage}
+                        options={stageOptions}
+                        onchange={onOpportunityStageChange}
+                        required>
+                    </lightning-combobox>
+
+                    <br />
+                    <lightning-button
+                        label="Next"
+                        variant="brand"
+                        onclick={goToCase}>
+                    </lightning-button>
+                </div>
+            </lightning-card>
+        </template>
+
+        <!-- Case Card -->
+        <template if:true={caseCard}>
+            <lightning-card title="Case" icon-name="standard:case">
+                <div class="slds-m-around_medium">
+                    <lightning-input
+                        type="text"
+                        label="Case Subject"
+                        value={caseSubject}
+                        onchange={onCaseSubjectChange}
+                        required>
+                    </lightning-input>
+
+                    <lightning-textarea
+                        label="Case Description"
+                        value={caseDescription}
+                        onchange={onCaseDescriptionChange}
+                        required>
+                    </lightning-textarea>
+
+                    <lightning-file-upload
+                        label="Upload Case Files"
+                        accept={acceptedFormats}
+                        multiple
+                        onuploadfinished={onFileUploadFinished}>
+                    </lightning-file-upload>
+
+                    <br />
+                    <lightning-button
+                        label="Submit All"
+                        variant="brand"
+                        onclick={submitAll}>
+                    </lightning-button>
+                </div>
+            </lightning-card>
+        </template>
+
+        <!-- Result Card -->
+        <template if:true={resView}>
+            <lightning-card title="Result" icon-name="utility:success">
+                <div class="slds-m-around_medium">
+                    <h3>Records Created Successfully!</h3>
+                    <p><b>Account (Patient) Name:</b> {patientName}</p>
+                    <p><b>Contact Name:</b> {contactName}</p>
+                    <p><b>Opportunity Name:</b> {opportunityName}</p>
+                    <p><b>Case Subject:</b> {caseSubject}</p>
+                    <p><b>Case Description:</b> {caseDescription}</p>
+                </div>
+            </lightning-card>
+        </template>
+    </div>
+</template>

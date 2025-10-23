@@ -1,0 +1,26 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.card {
+  border: 1px solid #d8dde6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  background: #ffffff;
+  min-height: 180px;
+}
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.placeholder {
+  color: #6b6d70;
+}

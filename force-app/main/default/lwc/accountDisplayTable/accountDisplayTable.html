@@ -1,0 +1,61 @@
+<template>
+    <lightning-card title="Active Accounts" icon-name="standard:account">
+        <lightning-datatable
+            key-field="Id"
+            data={activeAccounts}
+            columns={columns}
+            onrowaction={handleRowAction}>
+        </lightning-datatable>
+    </lightning-card>
+
+    <lightning-card title="Deactive Accounts" icon-name="standard:account">
+        <lightning-datatable
+            key-field="Id"
+            data={deactiveAccounts}
+            columns={columns}
+            onrowaction={handleRowAction}>
+        </lightning-datatable>
+    </lightning-card>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Update Account</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input
+                        name="Name"
+                        label="Account Name"
+                        value={selectedAccount.Name}
+                        onchange={handleChange}>
+                    </lightning-input>
+                    <lightning-input
+                        name="Phone"
+                        label="Phone"
+                        value={selectedAccount.Phone}
+                        onchange={handleChange}>
+                    </lightning-input>
+                    <lightning-input
+                        name="Industry"
+                        label="Industry"
+                        value={selectedAccount.Industry}
+                        onchange={handleChange}>
+                    </lightning-input>
+                    <lightning-input
+                        type="checkbox"
+                        name="Active__c"
+                        label="Active"
+                        checked={selectedAccount.Active__c}
+                        onchange={handleChange}>
+                    </lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button variant="brand" label="Save" onclick={handleSave}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

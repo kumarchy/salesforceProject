@@ -1,0 +1,19 @@
+<template>
+<lightning-card title="Patient Registration">
+<div class="slds-p-around_medium">
+<template if:false={submitted}>
+<lightning-input label="Patient Name" value={patientName} onchange={handleChange} data-field="name"></lightning-input>
+<lightning-input label="Email" type="email" value={email} onchange={handleChange} data-field="email"></lightning-input>
+<lightning-input label="Phone Number" type="tel" value={phone} onchange={handleChange} data-field="phone"></lightning-input>
+ 
+<lightning-button label="Submit" onclick={handleSubmit} class="slds-m-top_small"></lightning-button>
+ 
+<lightning-flow aura:id="flow" onstatuschange={handleFlowStatusChange}></lightning-flow>
+</template>
+ 
+            <template if:true={submitted}>
+<p>Thank you! Your information has been submitted.</p>
+</template>
+</div>
+</lightning-card>
+</template>

@@ -1,0 +1,36 @@
+<template>
+  <div class="grid">
+    <div class="card">
+      <h2>Parent</h2>
+      <div class="row">
+        <div>First number:</div>
+        <div>1</div>
+      </div>
+      <div class="row">
+        <div>Second number:</div>
+        <div>2</div>
+      </div>
+      <div class="row">
+        <div>Third number:</div>
+        <div>3</div>
+      </div>
+
+      <button class="slds-button slds-button_brand" onclick={handleNext} disabled={showChild}>
+        Next
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>Child</h2>
+      <template if:true={showChild}>
+        <c-practice-child first="1" second="2" third="3" onback={handleBack}></c-practice-child>
+      </template>
+      <template if:false={showChild}>
+        <div class="placeholder">
+          <p>Click Next to send data to child.</p>
+          <button class="slds-button slds-button_neutral" disabled>Back</button>
+        </div>
+      </template>
+    </div>
+  </div>
+</template>

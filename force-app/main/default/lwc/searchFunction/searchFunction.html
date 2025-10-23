@@ -1,0 +1,33 @@
+<template>
+<lightning-card title="Instant Account Search & Update" icon-name="standard:account">
+<div class="slds-p-around_medium">
+<lightning-input 
+type="search"
+label="Search by Name or Email"
+placeholder="Start typing..."
+value={searchKey}
+onchange={handleSearchInput}>
+</lightning-input>
+</div>
+
+<template if:true={accounts.length}>
+<lightning-datatable
+key-field="Id"
+data={accounts}
+columns={columns}
+onrowaction={handleRowAction}>
+</lightning-datatable>
+</template>
+
+<template if:true={selectedAccount}>
+<div class="slds-p-around_medium slds-box slds-m-top_medium">
+<h3 class="slds-text-heading_small slds-m-bottom_small">Update Account</h3>
+<lightning-input label="Name" value={selectedAccount.Name} onchange={handleFieldChange} data-field="Name"></lightning-input>
+<lightning-input label="Phone" value={selectedAccount.Phone} onchange={handleFieldChange} data-field="Phone"></lightning-input>
+<lightning-input label="Email" value={selectedAccount.Email__c} onchange={handleFieldChange} data-field="Email__c"></lightning-input>
+
+<lightning-button label="Update" variant="brand" class="slds-m-top_small" onclick={updateAccount}></lightning-button>
+</div>
+</template>
+</lightning-card>
+</template>
