@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SF_INSTANCE_URL = "https://login.salesforce.com"
-        SFDX_AUTOUPDATE_DISABLE = "true"
+        SF_AUTOUPDATE_DISABLE = "true"
     }
 
     stages {
@@ -23,16 +23,13 @@ pipeline {
                 ]) {
                     bat """
                         echo Authenticating to Salesforce using JWT...
-                        echo Using key file at: %JWT_KEYFILE%
-                        
-                        dir "%JWT_KEYFILE%"
                         
                         sf org login jwt ^
                             --client-id "%SF_CLIENT_ID%" ^
                             --jwt-key-file "%JWT_KEYFILE%" ^
                             --username "%SF_USERNAME%" ^
                             --instance-url "%SF_INSTANCE_URL%" ^
-                            --set-default-dev-hub ^
+                            --set-default ^
                             --alias my-sf-org
 
                         if %errorlevel% neq 0 (
@@ -41,7 +38,6 @@ pipeline {
                         )
 
                         echo ✅ Authentication successful!
-                        sf org display --target-org "%SF_USERNAME%"
                     """
                 }
             }
@@ -55,7 +51,6 @@ pipeline {
                         script: """
                             sf project deploy start ^
                                 --source-dir force-app/main/default ^
-                                --target-org "%SF_USERNAME%" ^
                                 --wait 10 ^
                                 --json > deployResult.json
                         """,
