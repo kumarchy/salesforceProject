@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        SF_INSTANCE_URL = "https://login.salesforce.com"  // Change to test.salesforce.com if sandbox
+        SF_INSTANCE_URL = "https://login.salesforce.com"
+        SFDX_AUTOUPDATE_DISABLE = "true"
     }
 
     stages {
@@ -26,13 +27,13 @@ pipeline {
                         
                         dir "%JWT_KEYFILE%"
                         
-                        sfdx auth:jwt:grant ^
-                            --clientid "%SF_CLIENT_ID%" ^
-                            --jwtkeyfile "%JWT_KEYFILE%" ^
+                        sf org login jwt ^
+                            --client-id "%SF_CLIENT_ID%" ^
+                            --jwt-key-file "%JWT_KEYFILE%" ^
                             --username "%SF_USERNAME%" ^
-                            --instanceurl "%SF_INSTANCE_URL%" ^
-                            --setdefaultdevhubusername ^
-                            --setalias my-sf-org
+                            --instance-url "%SF_INSTANCE_URL%" ^
+                            --set-default-dev-hub ^
+                            --alias my-sf-org
 
                         if %errorlevel% neq 0 (
                             echo ❌ Authentication failed!
@@ -40,7 +41,7 @@ pipeline {
                         )
 
                         echo ✅ Authentication successful!
-                        sfdx force:org:display --targetusername "%SF_USERNAME%"
+                        sf org display --target-org "%SF_USERNAME%"
                     """
                 }
             }
@@ -52,9 +53,9 @@ pipeline {
                     echo "🚀 Deploying Apex, LWC, and Triggers..."
                     def deployStatus = bat(
                         script: """
-                            sfdx force:source:deploy ^
-                                -p force-app\\main\\default ^
-                                --targetusername "%SF_USERNAME%" ^
+                            sf project deploy start ^
+                                --source-dir force-app/main/default ^
+                                --target-org "%SF_USERNAME%" ^
                                 --wait 10 ^
                                 --json > deployResult.json
                         """,
