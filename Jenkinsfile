@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        SF_INSTANCE_URL = "https://login.salesforce.com"  // Use https://test.salesforce.com for Sandbox
+        SF_INSTANCE_URL = "https://login.salesforce.com"  // Change to test.salesforce.com if sandbox
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                echo "Checking out source code from GitHub..."
+                echo "📦 Checking out source code from GitHub..."
                 checkout scm
             }
         }
@@ -22,7 +22,11 @@ pipeline {
                 ]) {
                     bat """
                         echo Authenticating to Salesforce using JWT...
-                        sfdx auth:jwt:grant ^
+                        echo Using key file at: %JWT_KEYFILE%
+                        
+                        dir "%JWT_KEYFILE%"
+                        
+                        "C:\\Program Files\\sf\\bin\\sfdx.cmd" auth:jwt:grant ^
                             --clientid "%SF_CLIENT_ID%" ^
                             --jwtkeyfile "%JWT_KEYFILE%" ^
                             --username "%SF_USERNAME%" ^
@@ -30,8 +34,13 @@ pipeline {
                             --setdefaultdevhubusername ^
                             --setalias my-sf-org
 
-                        echo Authentication successful!
-                        sfdx force:org:display --targetusername "%SF_USERNAME%"
+                        if %errorlevel% neq 0 (
+                            echo ❌ Authentication failed!
+                            exit /b %errorlevel%
+                        )
+
+                        echo ✅ Authentication successful!
+                        "C:\\Program Files\\sf\\bin\\sfdx.cmd" force:org:display --targetusername "%SF_USERNAME%"
                     """
                 }
             }
@@ -40,18 +49,18 @@ pipeline {
         stage('Deploy to Salesforce') {
             steps {
                 script {
-                    echo "Deploying Apex, LWC, and Triggers..."
+                    echo "🚀 Deploying Apex, LWC, and Triggers..."
                     def deployStatus = bat(
-                        script: '''
-                            sfdx force:source:deploy -p force-app\\main\\default ^
+                        script: """
+                            "C:\\Program Files\\sf\\bin\\sfdx.cmd" force:source:deploy ^
+                                -p force-app\\main\\default ^
                                 --targetusername "%SF_USERNAME%" ^
                                 --wait 10 ^
                                 --json > deployResult.json
-                        ''',
+                        """,
                         returnStatus: true
                     )
 
-                    // Check deployment status
                     if (deployStatus != 0) {
                         echo "❌ Deployment failed. Check deployResult.json for details."
                         bat 'type deployResult.json'
@@ -76,7 +85,7 @@ pipeline {
 
     post {
         failure {
-            echo "❌ Build failed! Please check the Jenkins logs and Salesforce Deployment report."
+            echo "❌ Build failed! Check the Jenkins logs and Salesforce Deployment report."
         }
         success {
             echo "✅ Build completed successfully. All Salesforce metadata deployed."
