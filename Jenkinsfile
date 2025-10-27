@@ -26,7 +26,7 @@ pipeline {
                         
                         dir "%JWT_KEYFILE%"
                         
-                        "C:\\Program Files\\sf\\bin\\sfdx.cmd" auth:jwt:grant ^
+                        sfdx auth:jwt:grant ^
                             --clientid "%SF_CLIENT_ID%" ^
                             --jwtkeyfile "%JWT_KEYFILE%" ^
                             --username "%SF_USERNAME%" ^
@@ -40,7 +40,7 @@ pipeline {
                         )
 
                         echo ✅ Authentication successful!
-                        "C:\\Program Files\\sf\\bin\\sfdx.cmd" force:org:display --targetusername "%SF_USERNAME%"
+                        sfdx force:org:display --targetusername "%SF_USERNAME%"
                     """
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
                     echo "🚀 Deploying Apex, LWC, and Triggers..."
                     def deployStatus = bat(
                         script: """
-                            "C:\\Program Files\\sf\\bin\\sfdx.cmd" force:source:deploy ^
+                            sfdx force:source:deploy ^
                                 -p force-app\\main\\default ^
                                 --targetusername "%SF_USERNAME%" ^
                                 --wait 10 ^
